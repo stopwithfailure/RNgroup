@@ -1,4 +1,4 @@
-#We would like to create a project called Diary book
+#We would like to create a project called Diary book  
 1.Allow the users to write a diary.  
 
 2.Allow the users to edit their text decide its style  
