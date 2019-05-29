@@ -6,15 +6,19 @@ import {
 	StyleSheet,
 	Text,
 	View,
+	Image,
 	Button,
 	PixelRatio,
+	Alert,
 } from 'react-native';
 //1. 导入文件
 
 import { createStackNavigator,createAppContainer } from 'react-navigation';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 // import Ionicons from 'react-native-vector-icons/Ionicons';
-const URL="http://172.22.125.5/api/api.php?";
+const URL="http://10.12.33.161/api/api.php?";
+// const URL="http://245786ka89.zicp.vip/api/api.php?";
+// const URL="http://192.168.1.104/api/api.php?";
 
 //2.创建一些页面
 class province extends React.Component {
@@ -58,7 +62,7 @@ class province extends React.Component {
 		return(
 			<View>
 				<TouchableOpacity onPress={()=>navigate('city',{value:item.province})}>
-					<Text>{item.province}</Text>
+					<Text style={{fontSize:23}}>{item.province}</Text>
 				</TouchableOpacity>
 			</View>
 		);
@@ -77,7 +81,7 @@ class province extends React.Component {
                     // ListEmptyComponent={this.listEmptyComponent} // show when there is no data
                     numColumns={1} // set how many columns each row,  you shouldn't use columnWrapperStyle when it is 1
                 />
-				<Text>province</Text>
+				<Text>provinces</Text>
 			</View>
 		);
 	}
@@ -115,7 +119,7 @@ class city extends React.Component {
 				<TouchableOpacity onPress={()=>navigate('details',{
 					province_1:this.props.navigation.state.params.value,
 					city_1:item.city})}>
-				<Text>{item.city}</Text>
+				<Text style={{fontSize:23}}>{item.city}</Text>
 				</TouchableOpacity>
 			</View>
 		);
@@ -134,7 +138,7 @@ class city extends React.Component {
                     // ListEmptyComponent={this.listEmptyComponent} // show when there is no data
                     numColumns={1} // set how many columns each row,  you shouldn't use columnWrapperStyle when it is 1
                 />
-				<Text>province</Text>
+				<Text>cities</Text>
 			</View>
 		);
 	}
@@ -158,8 +162,10 @@ class details extends React.Component {
 		+this.props.navigation.state.params.city_1)
 		.then((response) => response.json())        // json
 		.then((responseData) => {   
+			 
 			this.setState({
-				data: responseData,//when we use setState,it render again 
+				data: responseData,//when we use setState,it render again
+				
 			})
 		})
 		.catch((error) => {     // handle err 
@@ -170,8 +176,9 @@ class details extends React.Component {
 	renderItem(item){
 		return(
 			<View>
-				<Text>{item.spot_name}</Text>
-				<Text>{item.img_uri}</Text>
+				<Text style={{fontSize:20}}>{item.spot_name}</Text>
+				<Image style={{width:400,height:150,}} source={{ uri: item.img_uri }} />
+				{/* <Text>{item.img_uri}</Text> */}
 				<Text>{item.introduction}</Text>
 			</View>
 		);
@@ -190,7 +197,7 @@ class details extends React.Component {
                     // ListEmptyComponent={this.listEmptyComponent} // show when there is no data
                     numColumns={1} // set how many columns each row,  you shouldn't use columnWrapperStyle when it is 1
                 />
-				<Text>province</Text>
+				<Text>scenic spots</Text>
 			</View>
 		);
 	}
