@@ -22,6 +22,7 @@ const URL = "http://10.12.33.161/api/api.php?";
 // const URL="http://192.168.1.104/api/api.php?";
 var netdata = [];
 var netdata_c = [];
+var netdata_d = [];
 var debug_province = [{ "province": "Hebei" }, { "province": "Shandong" }, { "province": "Jiangsu" }];
 var debug_city = [{ "city": "Zhangjiakou" }, { "city": "Cangzhou" }, { "city": "Baoding" }, { "city": "Handan" }, { "city": "Qinhuangdao" }];
 var debug_details = [{ "spot_name": "Grassland Tianlu", "img_uri": "http://10.12.33.161/api/image/Grassland Tianlu.jpg", "introduction": "Grassland Tianlu, located in Zhangbei County, Zhangjiakou City, Hebei Province, is an important passageway connecting Chongli County's Saiwai Scenic Area and Zhangbei Grassland Style Area. It is also one of the ten most beautiful highways in mainland China." }, { "spot_name": "Zhangbei Grassland", "img_uri": "http://10.12.33.161/api/image/Zhangbei Grassland.jpg", "introduction": "Zhangbei grassland is located in Zhangbei County, 70 kilometers northwest of Zhangjiakou, with a total area of more than Two hundred square kilometers. It consists of two grasslands, Zhongdu and Guli. The average elevation is one thousand and four hundred meters and the average temperature in summer is Seventeen Point Four degrees. It is suitable for summer and summer." }, { "spot_name": "Luanhe Verve Scenic Spot", "img_uri": "http://10.12.33.161/api/image/Luanhe Verve Scenic Spot.jpg", "introduction": "Luanhe Shenyun Scenic Spot to Foshan Wetland Landscape Appreciation and Experience Area is a scenic spot which integrates wetland culture, wetland scenery and temple appreciation. Luanhe Shenyun Scenic Spot to Foshan Wetland Landscape Experience Zone is located in Lightning River National Wetland Park, Bashang, Hebei Province, Eighteen point eight kilometers away from Pingdingbao Town, Guyuan County Town, covering an area of Five hundred and sixty-two point four hectares." }, { "spot_name": "Territory Gate", "img_uri": "http://10.12.33.161/api/image/Territory Gate.jpg", "introduction": "Dajimen, provincial key cultural relics protection. Located at the northern end of Zhangjiakou City, between the eastern and Western Taiping Mountains towering into the clouds, there is a well-known Great Wall Pass, which has always been a place for military strategists to contend for." }, { "spot_name": "Warm Spring Ancient Town", "img_uri": "http://10.12.33.161/api/image/Warm Spring Ancient Town.jpg", "introduction": "Located in the west of Yuxian County, Hebei Province, Nuanquan Ancient Town is a famous historical and cultural town in China. It is now a national AAA-level tourist attraction. Ancient town is named `warm spring` because of its hot spring water all the year round. The ancient town has a long history and is famous for its springs, fairs, ancient buildings and folk culture." }];
@@ -35,8 +36,8 @@ class province extends React.Component {
 
 		super(props);
 		this.state = {
-			search:'',
 			data: debug_province,//this is the state of user's data
+			search: '',
 		};
 	}
 
@@ -60,6 +61,7 @@ class province extends React.Component {
 		if (clue == "") {
 			this.setState({
 				data: netdata,
+				search: '',
 			})
 		} else {
 			let newdata = [];
@@ -70,8 +72,8 @@ class province extends React.Component {
 				}
 			}
 			this.setState({
-				search:clue,
 				data: newdata,
+				search: clue,
 			})
 		}
 	}
@@ -81,15 +83,15 @@ class province extends React.Component {
 			<View style={styles.list}>
 				<SearchBar
 					placeholder="Type Here..."
-					onChangeText={(clue)=>this.search_(clue)}
+					onChangeText={(clue) => this.search_(clue)}
 					containerStyle={{ width: win.width - 6, height: 60, backgroundColor: 'white', borderRadius: 11, marginLeft: 3, marginRight: 3, marginTop: 3 }}
 					inputContainerStyle={{ backgroundColor: 'white' }}
 					searchIcon={{ size: 30, color: 'grey' }}
 					inputStyle={{ fontSize: 15 }}
 					placeholderTextColor={'grey'}
-					// showLoading={true}
-					round={true}
 					value={this.state.search}
+				// showLoading={true}
+				// round={true}
 				/>
 
 			</View>
@@ -175,8 +177,8 @@ class city extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			search:'',
 			data: debug_city,//this is the state of user's data
+			search: '',
 		};
 	}
 	componentDidMount() {
@@ -199,7 +201,7 @@ class city extends React.Component {
 		if (clue == "") {
 			this.setState({
 				data: netdata_c,
-				search:'',
+				search: '',
 			})
 		} else {
 			let newdata = [];
@@ -210,8 +212,8 @@ class city extends React.Component {
 				}
 			}
 			this.setState({
-				search:clue,
 				data: newdata,
+				search: clue,
 			})
 		}
 	}
@@ -227,9 +229,9 @@ class city extends React.Component {
 					searchIcon={{ size: 30, color: 'grey' }}
 					inputStyle={{ fontSize: 15 }}
 					placeholderTextColor={'grey'}
+					value={this.state.search}
 					// showLoading={true}
 					round={true}
-					value={this.state.search}
 				/>
 			</View>
 		)
@@ -317,9 +319,10 @@ class details extends React.Component {
 			+ this.props.navigation.state.params.city_1)
 			.then((response) => response.json())        // json
 			.then((responseData) => {
-
+					netdata_d = this.Briefinform(responseData);
+					// Alert.alert(netdata_d);
 				this.setState({
-					data: responseData,//when we use setState,it render again
+					data: netdata_d,//when we use setState,it render again
 
 				})
 			})
@@ -328,16 +331,67 @@ class details extends React.Component {
 			})
 			.done();
 	}
+
+	Tobrif(strings) {
+		let a = "";
+		if(strings.length>80){
+			for (let i = 0; i < 80; i++) {
+				a = a + strings[i];
+			}
+			a = a + '...';
+			return a;
+		}else{
+			return strings;
+		}
+	}
+
+	Briefinform(responseData) {
+		for (let i = 0; i < responseData.length; i++) {
+			responseData[i]['briefinformation'] = this.Tobrif(responseData[i]['introduction']);
+			responseData[i]['Select'] = 1;
+		}
+		return responseData;
+	}
+
+	Handleselect(item) {
+		let newdata = this.state.data;
+		let index=0;
+		for(let i=0;i<newdata.length;++i){
+			if(newdata[i]==item){
+				index=i;
+				break;
+			}
+		}
+		if (netdata_d[index]['Select'] == 1) {
+			netdata_d[index]['Select'] = -1
+		}else {
+			netdata_d[index]['Select'] = 1
+		}
+		this.setState({
+			data: netdata_d,
+		})
+	}
+
+
 	renderItem(item) {
+
 		return (
 			<View style={styles.list}>
 				<Card
 					title={item.spot_name}
-					image={source = { uri: item.img_uri }}>
-					<Text style={{ marginBottom: 10 }}>
-						{item.introduction}
-					</Text>
+					image={source = { uri: item.img_uri }}
+				>
+					{item.Select == -1 ?
+						<Text style={{ marginBottom: 10 }}>
+							{item.introduction}
+						</Text>
+						:
+						<Text style={{ marginBottom: 10 }}>
+							{item.briefinformation}
+						</Text>
+					}
 					<Button
+						onPress={() => this.Handleselect(item)}
 						// icon={<Icon name='code' color='#ffffff' />}
 						backgroundColor='#03A9F4'
 						buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
