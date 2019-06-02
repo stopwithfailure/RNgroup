@@ -349,26 +349,20 @@ class details extends React.Component {
 		for (let i = 0; i < responseData.length; i++) {
 			responseData[i]['briefinformation'] = this.Tobrif(responseData[i]['introduction']);
 			responseData[i]['Select'] = 1;
+			responseData[i]['index']=i;
 		}
 		return responseData;
 	}
 
-	Handleselect(item) {
-		let newdata = this.state.data;
-		let index=0;
-		for(let i=0;i<newdata.length;++i){
-			if(newdata[i]==item){
-				index=i;
-				break;
-			}
-		}
-		if (netdata_d[index]['Select'] == 1) {
-			netdata_d[index]['Select'] = -1
+	Handleselect(index) {
+		let newdata = netdata_d;
+		if (newdata[index]['Select'] == 1) {
+			newdata[index]['Select'] = -1
 		}else {
-			netdata_d[index]['Select'] = 1
+			newdata[index]['Select'] = 1
 		}
 		this.setState({
-			data: netdata_d,
+			data: newdata,
 		})
 	}
 
@@ -391,7 +385,7 @@ class details extends React.Component {
 						</Text>
 					}
 					<Button
-						onPress={() => this.Handleselect(item)}
+						onPress={() => this.Handleselect(item.index)}
 						// icon={<Icon name='code' color='#ffffff' />}
 						backgroundColor='#03A9F4'
 						buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
