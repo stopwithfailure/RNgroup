@@ -1,10 +1,12 @@
-#We would like to create a project called Diary book  
-1.Allow the users to write a diary.  
-
-2.Allow the users to edit their text decide its style  
-
-3.Allow the users to put a picture into it,and of course edit the photo  
-
-4.It will get the exact time and weather when users start it   
-
-5.we may add a remote control function to help your families.
+### Chinese scenic spots
+1. Search:you can search province name in province list and city name in city list.
+2. Scan:there are 33 provices,each province has several cities and each city colected about 5 scenic spots.You can choose a place to learn about its scenic spots.We offered a picture and some brief for each scenic spot.
+3. Lastesd data.If we are going to update the data of these places,we can just change the data on server.
+## directory structure
+<pre><code>.
+├── App.js
+└── pages
+    ├── province.js
+    ├── city.js
+    └── details.js
+</code></pre>
