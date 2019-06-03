@@ -7,7 +7,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 const URL = "http://10.12.33.161/api/api.php?";			//campus network
 // const URL="http://245786ka89.zicp.vip/api/api.php?"; //internet
 
-//3. 添加TabNavigator中
+//TabNavigator
 const RootTabs = createStackNavigator({
 	province: {
 		screen: province_navigator,
