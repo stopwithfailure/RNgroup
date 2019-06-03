@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 
 const URL = "http://245786ka89.zicp.vip/api/api.php?";
-// const URL = "http://[10.12.33.161]/api/api.php?";
+// const URL = "http://10.12.33.161/api/api.php?";
 var netdata_c = [];
 // var debug_city = [{ "city": "Zhangjiakou" }, { "city": "Cangzhou" }, { "city": "Baoding" }, { "city": "Handan" }, { "city": "Qinhuangdao" }];
 var debug_city = [];
@@ -121,7 +121,7 @@ export default class city extends React.Component {
 						<Animated.Text
 							style={{
 								textAlign: 'center',
-								fontSize: 34,
+								fontSize: 60,
 								fontFamily: 'iconfont',
 								transform: [{ 
 									rotate: this.state.rotateVal.interpolate({
@@ -130,7 +130,7 @@ export default class city extends React.Component {
 									})
 								}]
 							}}>
-							{'\ue6ae'}
+							{'☯'}
 						</Animated.Text> :
 						<LinearGradient
 							start={{ x: 0, y: 0 }}
