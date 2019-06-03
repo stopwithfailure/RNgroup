@@ -9,12 +9,12 @@ var debug_province = [{ "province": "Hebei" }, { "province": "Shandong" }, { "pr
 
 export default class province extends React.Component {
     static navigationOptions = {
-        title: 'PROVINCE LIST',
+        title: 'WELCOME!',
     };
     constructor(props) {
         super(props);
         this.state = {
-            data: debug_province,//this is the state of user's data
+            data: netdata = debug_province,//this is the state of user's data
             search: '',
         };
     }

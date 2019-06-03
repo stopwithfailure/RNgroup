@@ -7,15 +7,17 @@ var netdata_d = [];
 var debug_details = [{ "spot_name": "Grassland Tianlu", "img_uri": "http://10.12.33.161/api/image/Grassland Tianlu.jpg", "introduction": "Grassland Tianlu, located in Zhangbei County, Zhangjiakou City, Hebei Province, is an important passageway connecting Chongli County's Saiwai Scenic Area and Zhangbei Grassland Style Area. It is also one of the ten most beautiful highways in mainland China." }, { "spot_name": "Zhangbei Grassland", "img_uri": "http://10.12.33.161/api/image/Zhangbei Grassland.jpg", "introduction": "Zhangbei grassland is located in Zhangbei County, 70 kilometers northwest of Zhangjiakou, with a total area of more than Two hundred square kilometers. It consists of two grasslands, Zhongdu and Guli. The average elevation is one thousand and four hundred meters and the average temperature in summer is Seventeen Point Four degrees. It is suitable for summer and summer." }, { "spot_name": "Luanhe Verve Scenic Spot", "img_uri": "http://10.12.33.161/api/image/Luanhe Verve Scenic Spot.jpg", "introduction": "Luanhe Shenyun Scenic Spot to Foshan Wetland Landscape Appreciation and Experience Area is a scenic spot which integrates wetland culture, wetland scenery and temple appreciation. Luanhe Shenyun Scenic Spot to Foshan Wetland Landscape Experience Zone is located in Lightning River National Wetland Park, Bashang, Hebei Province, Eighteen point eight kilometers away from Pingdingbao Town, Guyuan County Town, covering an area of Five hundred and sixty-two point four hectares." }, { "spot_name": "Territory Gate", "img_uri": "http://10.12.33.161/api/image/Territory Gate.jpg", "introduction": "Dajimen, provincial key cultural relics protection. Located at the northern end of Zhangjiakou City, between the eastern and Western Taiping Mountains towering into the clouds, there is a well-known Great Wall Pass, which has always been a place for military strategists to contend for." }, { "spot_name": "Warm Spring Ancient Town", "img_uri": "http://10.12.33.161/api/image/Warm Spring Ancient Town.jpg", "introduction": "Located in the west of Yuxian County, Hebei Province, Nuanquan Ancient Town is a famous historical and cultural town in China. It is now a national AAA-level tourist attraction. Ancient town is named `warm spring` because of its hot spring water all the year round. The ancient town has a long history and is famous for its springs, fairs, ancient buildings and folk culture." }];
 
 export default class details extends React.Component {
-    static navigationOptions = {
-        title: "DETAILS LIST",
-    };
     constructor(props) {
         super(props);
         this.state = {
-            data: netdata_d=this.Briefinform(debug_details),//this is the state of user's data
+            data: netdata_d = this.Briefinform(debug_details),//this is the state of user's data
         };
     }
+    static navigationOptions=({navigation,navigationOptions})=> {
+		return {
+			title: navigation.getParam('province_1') + " > " +navigation.getParam('city_1'),
+		}
+	};
     componentDidMount() {
         fetch(URL + "query=scenic_spot&" + "province="
             + this.props.navigation.state.params.province_1 + "&city="

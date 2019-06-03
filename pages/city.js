@@ -15,17 +15,22 @@ var netdata_c = [];
 var debug_city = [{ "city": "Zhangjiakou" }, { "city": "Cangzhou" }, { "city": "Baoding" }, { "city": "Handan" }, { "city": "Qinhuangdao" }];
 
 export default class city extends React.Component {
-	static navigationOptions = {
-		title: "CITY LIST",
-	};
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: debug_city,//this is the state of user's data
+			data: netdata_c = debug_city,//this is the state of user's data
 			search: '',
 		};
 	}
+	static navigationOptions=({navigation,navigationOptions})=> {
+		return {
+			title: navigation.getParam('value'),
+		}
+	};
 	componentDidMount() {
+		// navigationOptions = {
+		// 	title: "> " + this.props.navigation.state.params.value,
+		// };
 		fetch(URL + "query=city&" + "province="
 			+ this.props.navigation.state.params.value)
 			.then((response) => response.json())        // json
@@ -120,7 +125,7 @@ export default class city extends React.Component {
 						renderItem={({ item }) => this.renderItem(item)} // row
 						horizontal={false} // row or column
 						numColumns={1} // set how many columns each row,  you shouldn't use columnWrapperStyle when it is 1
-						ListHeaderComponent={this.headerorfooterComponent()}
+						// ListHeaderComponent={this.headerorfooterComponent()}
 					/>
 					<Text style={{ textAlign: 'center' }}>cities</Text>
 				</LinearGradient>
