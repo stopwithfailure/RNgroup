@@ -121,7 +121,7 @@ export default class city extends React.Component {
 						<Animated.Text
 							style={{
 								textAlign: 'center',
-								fontSize: 60,
+								fontSize: 34,
 								fontFamily: 'iconfont',
 								transform: [{ 
 									rotate: this.state.rotateVal.interpolate({
@@ -130,7 +130,7 @@ export default class city extends React.Component {
 									})
 								}]
 							}}>
-							{'☯'}
+							{'❃'}
 						</Animated.Text> :
 						<LinearGradient
 							start={{ x: 0, y: 0 }}

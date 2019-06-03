@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View, Dimensions, Easing, Animated, } from 'react-native';
+import { FlatList, StyleSheet, View, Dimensions, Easing, Animated, } from 'react-native';
 import { SearchBar, Button } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
@@ -118,7 +118,7 @@ export default class province extends React.Component {
                         <Animated.Text
                             style={{
                                 textAlign: 'center',
-                                fontSize: 60,
+                                fontSize: 43,
                                 fontFamily: 'iconfont',
                                 transform: [{ 
                                     rotate: this.state.rotateVal.interpolate({
@@ -128,7 +128,7 @@ export default class province extends React.Component {
                                 }]
                             }}>
                             {/* {'\ue6ae'} */}
-                            {'☯'}
+                            {'❃'}
                         </Animated.Text> :
                         <LinearGradient
                             start={{ x: 0, y: 0 }}
