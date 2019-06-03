@@ -1,12 +1,14 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View, Dimensions, } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Dimensions, Easing, Animated, } from 'react-native';
 import { SearchBar, Button } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 
+const URL = "http://245786ka89.zicp.vip/api/api.php?";
+// const URL = "http://[10.12.33.161]/api/api.php?";
 var netdata = [];
-var debug_province = [{ "province": "Hebei" }, { "province": "Shandong" }, { "province": "Jiangsu" }];
-
+// var debug_province = [{ "province": "Hebei" }, { "province": "Shandong" }, { "province": "Jiangsu" }];
+var debug_province = [];
 export default class province extends React.Component {
     static navigationOptions = {
         title: 'WELCOME!',
@@ -14,16 +16,28 @@ export default class province extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            rotateVal: new Animated.Value(0),
+            ani: 1,
             data: netdata = debug_province,//this is the state of user's data
             search: '',
         };
     }
     componentDidMount() {
+        const animationLoading = Animated.timing(
+            this.state.rotateVal,
+            {
+                toValue: 360,
+                easing: Easing.linear,
+            }
+        );
+        Animated.loop(animationLoading).start();
         fetch(URL + "query=province")
             .then((response) => response.json())        // json
             .then((responseData) => {
+                Animated.loop(animationLoading).stop();
                 this.setState({
                     data: responseData,//when we use setState,it render again 
+                    ani: 0,
                 })
                 netdata = responseData;
             })
@@ -32,7 +46,6 @@ export default class province extends React.Component {
             .done();
     }
     search_(clue) {
-        // Alert.alert(clue)
         if (clue == "") {
             this.setState({
                 data: netdata,
@@ -99,25 +112,42 @@ export default class province extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <LinearGradient
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                    colors={['#dbdcd7', '#dddcd7', '#e2c9cc', '#e7627d', '#b8235a', '#801357', '#3d1635', '#1c1a27']}
-                    locations={[0, 0.24, 0.3, 0.46, 0.59, 0.71, 0.84, 1]}
-                >
-                    <FlatList
-                        extraData={this.state}
-                        keyExtractor={(item, index) => String(index)}
-                        data={this.state.data} // data
-                        renderItem={({ item }) => this.renderItem(item)} // row
-                        // ItemSeparatorComponent={this.separatorComponent} // separator
-                        horizontal={false} // row or column
-                        // ListEmptyComponent={this.listEmptyComponent} // show when there is no data
-                        numColumns={1} // set how many columns each row,  you shouldn't use columnWrapperStyle when it is 1
-                        ListHeaderComponent={this.headerorfooterComponent}
-                    />
-                    <Text style={{ textAlign: 'center' }}>provinces</Text>
-                </LinearGradient>
+                {
+                    this.state.ani == 1 ?
+
+                        <Animated.Text
+                            style={{
+                                textAlign: 'center',
+                                fontSize: 34,
+                                fontFamily: 'iconfont',
+                                transform: [{ 
+                                    rotate: this.state.rotateVal.interpolate({
+                                        inputRange: [0, 360],
+                                        outputRange: ['0deg', '360deg'],
+                                    })
+                                }]
+                            }}>
+                            {'\ue6ae'}
+                        </Animated.Text> :
+                        <LinearGradient
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 0, y: 1 }}
+                            colors={['#dbdcd7', '#dddcd7', '#e2c9cc', '#e7627d', '#b8235a', '#801357', '#3d1635', '#1c1a27']}
+                            locations={[0, 0.24, 0.3, 0.46, 0.59, 0.71, 0.84, 1]}
+                        >
+                            <FlatList
+                                extraData={this.state}
+                                keyExtractor={(item, index) => String(index)}
+                                data={this.state.data} // data
+                                renderItem={({ item }) => this.renderItem(item)} // row
+                                // ItemSeparatorComponent={this.separatorComponent} // separator
+                                horizontal={false} // row or column
+                                // ListEmptyComponent={this.listEmptyComponent} // show when there is no data
+                                numColumns={1} // set how many columns each row,  you shouldn't use columnWrapperStyle when it is 1
+                                ListHeaderComponent={this.headerorfooterComponent}
+                            /></LinearGradient>
+                }
+
             </View>
         );
     }

@@ -1,32 +1,46 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View, Dimensions } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Dimensions, Easing, Animated, } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 
+const URL = "http://245786ka89.zicp.vip/api/api.php?";
+// const URL = "http://[10.12.33.161]/api/api.php?";
 var netdata_d = [];
-var debug_details = [{ "spot_name": "Grassland Tianlu", "img_uri": "http://10.12.33.161/api/image/Grassland Tianlu.jpg", "introduction": "Grassland Tianlu, located in Zhangbei County, Zhangjiakou City, Hebei Province, is an important passageway connecting Chongli County's Saiwai Scenic Area and Zhangbei Grassland Style Area. It is also one of the ten most beautiful highways in mainland China." }, { "spot_name": "Zhangbei Grassland", "img_uri": "http://10.12.33.161/api/image/Zhangbei Grassland.jpg", "introduction": "Zhangbei grassland is located in Zhangbei County, 70 kilometers northwest of Zhangjiakou, with a total area of more than Two hundred square kilometers. It consists of two grasslands, Zhongdu and Guli. The average elevation is one thousand and four hundred meters and the average temperature in summer is Seventeen Point Four degrees. It is suitable for summer and summer." }, { "spot_name": "Luanhe Verve Scenic Spot", "img_uri": "http://10.12.33.161/api/image/Luanhe Verve Scenic Spot.jpg", "introduction": "Luanhe Shenyun Scenic Spot to Foshan Wetland Landscape Appreciation and Experience Area is a scenic spot which integrates wetland culture, wetland scenery and temple appreciation. Luanhe Shenyun Scenic Spot to Foshan Wetland Landscape Experience Zone is located in Lightning River National Wetland Park, Bashang, Hebei Province, Eighteen point eight kilometers away from Pingdingbao Town, Guyuan County Town, covering an area of Five hundred and sixty-two point four hectares." }, { "spot_name": "Territory Gate", "img_uri": "http://10.12.33.161/api/image/Territory Gate.jpg", "introduction": "Dajimen, provincial key cultural relics protection. Located at the northern end of Zhangjiakou City, between the eastern and Western Taiping Mountains towering into the clouds, there is a well-known Great Wall Pass, which has always been a place for military strategists to contend for." }, { "spot_name": "Warm Spring Ancient Town", "img_uri": "http://10.12.33.161/api/image/Warm Spring Ancient Town.jpg", "introduction": "Located in the west of Yuxian County, Hebei Province, Nuanquan Ancient Town is a famous historical and cultural town in China. It is now a national AAA-level tourist attraction. Ancient town is named `warm spring` because of its hot spring water all the year round. The ancient town has a long history and is famous for its springs, fairs, ancient buildings and folk culture." }];
-
+// var debug_details = [{ "spot_name": "Grassland Tianlu", "img_uri": "http://10.12.33.161/api/image/Grassland Tianlu.jpg", "introduction": "Grassland Tianlu, located in Zhangbei County, Zhangjiakou City, Hebei Province, is an important passageway connecting Chongli County's Saiwai Scenic Area and Zhangbei Grassland Style Area. It is also one of the ten most beautiful highways in mainland China." }, { "spot_name": "Zhangbei Grassland", "img_uri": "http://10.12.33.161/api/image/Zhangbei Grassland.jpg", "introduction": "Zhangbei grassland is located in Zhangbei County, 70 kilometers northwest of Zhangjiakou, with a total area of more than Two hundred square kilometers. It consists of two grasslands, Zhongdu and Guli. The average elevation is one thousand and four hundred meters and the average temperature in summer is Seventeen Point Four degrees. It is suitable for summer and summer." }, { "spot_name": "Luanhe Verve Scenic Spot", "img_uri": "http://10.12.33.161/api/image/Luanhe Verve Scenic Spot.jpg", "introduction": "Luanhe Shenyun Scenic Spot to Foshan Wetland Landscape Appreciation and Experience Area is a scenic spot which integrates wetland culture, wetland scenery and temple appreciation. Luanhe Shenyun Scenic Spot to Foshan Wetland Landscape Experience Zone is located in Lightning River National Wetland Park, Bashang, Hebei Province, Eighteen point eight kilometers away from Pingdingbao Town, Guyuan County Town, covering an area of Five hundred and sixty-two point four hectares." }, { "spot_name": "Territory Gate", "img_uri": "http://10.12.33.161/api/image/Territory Gate.jpg", "introduction": "Dajimen, provincial key cultural relics protection. Located at the northern end of Zhangjiakou City, between the eastern and Western Taiping Mountains towering into the clouds, there is a well-known Great Wall Pass, which has always been a place for military strategists to contend for." }, { "spot_name": "Warm Spring Ancient Town", "img_uri": "http://10.12.33.161/api/image/Warm Spring Ancient Town.jpg", "introduction": "Located in the west of Yuxian County, Hebei Province, Nuanquan Ancient Town is a famous historical and cultural town in China. It is now a national AAA-level tourist attraction. Ancient town is named `warm spring` because of its hot spring water all the year round. The ancient town has a long history and is famous for its springs, fairs, ancient buildings and folk culture." }];
+var debug_details = [];
 export default class details extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            rotateVal: new Animated.Value(0),
+            ani: 1,
             data: netdata_d = this.Briefinform(debug_details),//this is the state of user's data
         };
     }
-    static navigationOptions=({navigation,navigationOptions})=> {
-		return {
-			title: navigation.getParam('province_1') + " > " +navigation.getParam('city_1'),
-		}
-	};
+    static navigationOptions = ({ navigation, navigationOptions }) => {
+        return {
+            title: navigation.getParam('province_1') + " > " + navigation.getParam('city_1'),
+        }
+    };
     componentDidMount() {
+        const animationLoading = Animated.timing(
+            this.state.rotateVal, 
+            {
+                toValue: 360, 
+                easing: Easing.linear, 
+            }
+        );
+        Animated.loop(animationLoading).start();
         fetch(URL + "query=scenic_spot&" + "province="
             + this.props.navigation.state.params.province_1 + "&city="
             + this.props.navigation.state.params.city_1)
             .then((response) => response.json())        // json
             .then((responseData) => {
+                Animated.loop(animationLoading).stop();
                 netdata_d = this.Briefinform(responseData);
                 this.setState({
                     data: netdata_d,//when we use setState,it render again
+                    ani: 0,
                 })
             })
             .catch((error) => {     // handle err 
@@ -93,22 +107,39 @@ export default class details extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <LinearGradient
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                    colors={['#83a4d4', '#b6fbff']}
-                    locations={[0, 1]}
-                >
-                    <FlatList
-                        extraData={this.state}
-                        keyExtractor={(item, index) => String(index)}
-                        data={this.state.data} // data
-                        renderItem={({ item }) => this.renderItem(item)} // row
-                        horizontal={false} // row or column
-                        numColumns={1} // set how many columns each row,  you shouldn't use columnWrapperStyle when it is 1
-                    />
-                    <Text style={{ textAlign: 'center' }}>scenic spots</Text>
-                </LinearGradient>
+                {
+                    this.state.ani == 1 ?
+
+                        <Animated.Text
+                            style={{
+                                textAlign: 'center',
+                                fontSize: 34,
+                                fontFamily: 'iconfont',
+                                transform: [{ 
+                                    rotate: this.state.rotateVal.interpolate({
+                                        inputRange: [0, 360],
+                                        outputRange: ['0deg', '360deg'],
+                                    })
+                                }]
+                            }}>
+                            {'\ue6ae'}
+                        </Animated.Text> :
+                        <LinearGradient
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 0, y: 1 }}
+                            colors={['#83a4d4', '#b6fbff']}
+                            locations={[0, 1]}
+                        ><FlatList
+                                extraData={this.state}
+                                keyExtractor={(item, index) => String(index)}
+                                data={this.state.data} // data
+                                renderItem={({ item }) => this.renderItem(item)} // row
+                                horizontal={false} // row or column
+                                numColumns={1} // set how many columns each row,  you shouldn't use columnWrapperStyle when it is 1
+                            />
+                        </LinearGradient>
+                }
+
             </View>
         );
     }
