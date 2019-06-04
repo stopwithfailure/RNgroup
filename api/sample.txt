@@ -1,0 +1,11 @@
+1shanxi
+2changzhi
+3yangtouling&image/ytl.jpg&ytl shi ge hao di fang.
+3buzhid&image/u7.jpg&this is the summer palace,you are welcome.
+2taiyuan
+3asdsadsad&image/das.jpg&this is the imperial palace,you are welcome.
+3asdasdsddsa&image/asdasdasd.jpg&this is the summer palace,you are welcome.
+1beijing
+2beijing
+3the Imperial Palace&image/u7.jpg&this is the imperial palace,you are welcome.
+3the summer palace&image/u7.jpg&this is the summer palace,you are welcome.
