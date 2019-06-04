@@ -4,7 +4,7 @@ import { SearchBar, Button } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 
-const URL = "http://172.26.34.193/api/api.php?";
+const URL = "http://245786ka89.zicp.vip/api/api.php?";
 // const URL = "http://10.12.33.161/api/api.php?";
 var netdata = [];
 // var debug_province = [{ "province": "Hebei" }, { "province": "Shandong" }, { "province": "Jiangsu" }];

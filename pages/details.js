@@ -24,10 +24,10 @@ export default class details extends React.Component {
     };
     componentDidMount() {
         const animationLoading = Animated.timing(
-            this.state.rotateVal, 
+            this.state.rotateVal,
             {
-                toValue: 360, 
-                easing: Easing.linear, 
+                toValue: 360,
+                easing: Easing.linear,
             }
         );
         Animated.loop(animationLoading).start();
@@ -87,19 +87,27 @@ export default class details extends React.Component {
                     image={source = { uri: item.img_uri }}
                 >
                     {item.Select == -1 ?
-                        <Text style={{ marginBottom: 10 }}>
-                            {item.introduction}
-                        </Text>
+                        <View>
+                            <Text style={{ marginBottom: 10 }}>
+                                {item.introduction}
+                            </Text><Button
+                                onPress={() => this.Handleselect(item.index)}
+                                backgroundColor='#03A9F4'
+                                buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+                                title='Close' />
+                        </View>
                         :
-                        <Text style={{ marginBottom: 10 }}>
-                            {item.briefinformation}
-                        </Text>
+                        <View>
+                            <Text style={{ marginBottom: 10 }}>
+                                {item.briefinformation}
+                            </Text><Button
+                                onPress={() => this.Handleselect(item.index)}
+                                backgroundColor='#03A9F4'
+                                buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+                                title='Learn More' />
+                        </View>
                     }
-                    <Button
-                        onPress={() => this.Handleselect(item.index)}
-                        backgroundColor='#03A9F4'
-                        buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-                        title='Learn More' />
+
                 </Card>
             </View>
         );
@@ -115,7 +123,7 @@ export default class details extends React.Component {
                                 textAlign: 'center',
                                 fontSize: 34,
                                 fontFamily: 'iconfont',
-                                transform: [{ 
+                                transform: [{
                                     rotate: this.state.rotateVal.interpolate({
                                         inputRange: [0, 360],
                                         outputRange: ['0deg', '360deg'],
