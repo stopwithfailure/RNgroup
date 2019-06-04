@@ -130,7 +130,7 @@ export default class city extends React.Component {
 									})
 								}]
 							}}>
-							{'❃'}
+							{'☯'}
 						</Animated.Text> :
 						<LinearGradient
 							start={{ x: 0, y: 0 }}

@@ -122,7 +122,7 @@ export default class details extends React.Component {
                                     })
                                 }]
                             }}>
-                            {'❃'}
+                            {'☯'}
                         </Animated.Text> :
                         <LinearGradient
                             start={{ x: 0, y: 0 }}

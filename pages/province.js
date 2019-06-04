@@ -4,7 +4,7 @@ import { SearchBar, Button } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 
-const URL = "http://245786ka89.zicp.vip/api/api.php?";
+const URL = "http://172.26.34.193/api/api.php?";
 // const URL = "http://10.12.33.161/api/api.php?";
 var netdata = [];
 // var debug_province = [{ "province": "Hebei" }, { "province": "Shandong" }, { "province": "Jiangsu" }];
@@ -118,7 +118,7 @@ export default class province extends React.Component {
                         <Animated.Text
                             style={{
                                 textAlign: 'center',
-                                fontSize: 43,
+                                fontSize: 34,
                                 fontFamily: 'iconfont',
                                 transform: [{ 
                                     rotate: this.state.rotateVal.interpolate({
@@ -128,7 +128,7 @@ export default class province extends React.Component {
                                 }]
                             }}>
                             {/* {'\ue6ae'} */}
-                            {'❃'}
+                            {'☯'}
                         </Animated.Text> :
                         <LinearGradient
                             start={{ x: 0, y: 0 }}
