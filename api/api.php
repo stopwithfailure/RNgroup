@@ -30,14 +30,16 @@ if (isset($_GET["query"])) {
     } else if ($_GET["query"] == "city") {//city request
         if (isset($_GET["province"])) {
             $province_ori = explode('$', $data);
+            // echo $province_ori[1];
             $province = array();
             $province_num = count($province_ori);
             for ($x = 0; $x < $province_num - 1; $x++) {
                 $temp = explode('%', $province_ori[$x + 1]);
+                
                 if($temp[0] == $_GET["province"]){//find the province
                     
                     
-                    $cities_ori = explode('^', $province_ori[$x + 1]);//the same as province
+                    $cities_ori = $temp;//the same as province
                     $city = array();
                     $cities_num = count($cities_ori);
                     for ($i = 0; $i < $cities_num - 1; $i++) {
@@ -62,6 +64,7 @@ if (isset($_GET["query"])) {
         if (isset($_GET["city"])&&isset($_GET["province"])) {
             if (isset($_GET["province"])) {
             $province_ori = explode('$', $data);
+            echo $province_ori[0];
             $province = array();
             $province_num = count($province_ori);
             for ($x = 0; $x < $province_num - 1; $x++) {
