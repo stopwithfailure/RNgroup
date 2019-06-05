@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, View, Dimensions, Easing, Animated, } from 'react-native';
+import { FlatList, StyleSheet, View, Dimensions, Easing, Animated, Text } from 'react-native';
 import { SearchBar, Button } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
@@ -114,22 +114,25 @@ export default class province extends React.Component {
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 {
                     this.state.ani == 1 ?
-
-                        <Animated.Text
-                            style={{
-                                textAlign: 'center',
-                                fontSize: 34,
-                                fontFamily: 'iconfont',
-                                transform: [{ 
-                                    rotate: this.state.rotateVal.interpolate({
-                                        inputRange: [0, 360],
-                                        outputRange: ['0deg', '360deg'],
-                                    })
-                                }]
-                            }}>
-                            {/* {'\ue6ae'} */}
-                            {'☯'}
-                        </Animated.Text> :
+                        <View>
+                            <Animated.Text
+                                style={{
+                                    textAlign: 'center',
+                                    fontSize: 25,
+                                    fontFamily: 'iconfont',
+                                    transform: [{ 
+                                        rotate: this.state.rotateVal.interpolate({
+                                            inputRange: [0, 360],
+                                            outputRange: ['0deg', '360deg'],
+                                        })
+                                    }]
+                                }}>
+                                {/* {'\ue6ae'} */}
+                                {'☯'}
+                            </Animated.Text>
+                            <Text>Loading...</Text>
+                        </View>
+                        :
                         <LinearGradient
                             start={{ x: 0, y: 0 }}
                             end={{ x: 0, y: 1 }}

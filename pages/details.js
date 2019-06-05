@@ -117,11 +117,11 @@ export default class details extends React.Component {
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 {
                     this.state.ani == 1 ?
-
+                        <View>
                         <Animated.Text
                             style={{
                                 textAlign: 'center',
-                                fontSize: 34,
+                                fontSize: 25,
                                 fontFamily: 'iconfont',
                                 transform: [{
                                     rotate: this.state.rotateVal.interpolate({
@@ -131,7 +131,9 @@ export default class details extends React.Component {
                                 }]
                             }}>
                             {'☯'}
-                        </Animated.Text> :
+                        </Animated.Text><Text>Loading...</Text>
+                        </View>
+                         :
                         <LinearGradient
                             start={{ x: 0, y: 0 }}
                             end={{ x: 0, y: 1 }}

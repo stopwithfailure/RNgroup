@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, FlatList, StyleSheet, View, Dimensions, Easing, } from 'react-native';
+import { Animated, FlatList, StyleSheet, View, Dimensions, Easing, Text } from 'react-native';
 import { SearchBar, Button } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
@@ -118,10 +118,11 @@ export default class city extends React.Component {
 			<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 				{
 					this.state.ani == 1 ?
+						<View>
 						<Animated.Text
 							style={{
 								textAlign: 'center',
-								fontSize: 34,
+								fontSize: 25,
 								fontFamily: 'iconfont',
 								transform: [{ 
 									rotate: this.state.rotateVal.interpolate({
@@ -131,7 +132,8 @@ export default class city extends React.Component {
 								}]
 							}}>
 							{'☯'}
-						</Animated.Text> :
+						</Animated.Text><Text>Loading...</Text>
+                        </View> :
 						<LinearGradient
 							start={{ x: 0, y: 0 }}
 							end={{ x: 0, y: 1 }}
