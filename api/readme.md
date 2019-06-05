@@ -1,27 +1,23 @@
-### 使用说明
-- 放在网站根目录下，如www为网站根目录，则www/api/api.php为api.php位置
-- images文件已删除，避免git文件过大
-
-### api调用
-- GET方式
-
-### 获取省份列表
-1. 参数   
-- query = province
-2. 样例   
-- http://245786ka89.zicp.vip/api/api.php?query=province
-
-### 获取（某省份）城市列表
-1. 参数   
-- query = city
-- province = beijing
-2. 样例   
-- http://245786ka89.zicp.vip/api/api.php?query=city&province=Hebei
-
-### 获取（某省份，某城市）景点列表
-1. 参数   
+### Instructions
+- Put it in the website root directory. If WWW is the website root directory, then www/api/api.php is the api.php location.
+- Image files have been deleted to avoid '.git' files being too large
+### API call
+- GET method
+### Get a list of provinces
+1. Parameters
+- query = Province
+2. Samples
+- http://245786ka89.zicp.vip/api/api.php?Query=province
+### Get a list of cities
+1. Parameters
+- query = City
+- province = Beijing
+2. Samples
+- http://245786ka89.zicp.vip/api/api.php?Query=city&province=Hebei
+### Get a list of attractions (a province, a city)
+1. Parameters
 - query = scenic_spot
-- province = beijing
-- city = beijing
-2. 样例   
-- http://245786ka89.zicp.vip/api/api.php?query=scenic_spot&province=Hebei&city=Zhangjiakou
+- province = Beijing
+- city = Beijing
+2. Samples
+- http://245786ka89.zicp.vip/api/api.php?Query=scenic_spot&province=Hebei&city=Zhangjiakou
