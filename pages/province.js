@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, View, Dimensions, Easing, Animated, Text } from 'react-native';
+import { FlatList, StyleSheet, View, Dimensions, Easing, Animated, Text, ToastAndroid } from 'react-native';
 import { SearchBar, Button } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
@@ -11,7 +11,14 @@ var netdata = [];
 var debug_province = [];
 export default class province extends React.Component {
     static navigationOptions = {
-        title: 'WELCOME!',
+        headerTitle: (
+            <View style={{flex:1}}>
+            <Text style={{textAlign: 'center', color:'black',fontWeight:'bold',fontSize:17}}>Scenic spots</Text>
+            </View>
+        ),
+        headerStyle:{
+        backgroundColor:'white',
+        },
     };
     constructor(props) {
         super(props);
@@ -23,6 +30,14 @@ export default class province extends React.Component {
         };
     }
     componentDidMount() {
+        let tt=setTimeout(() => {
+            Animated.loop(animationLoading).stop();
+            ToastAndroid.showWithGravity(
+                'Network connection is unavailable.\nPlease try again later.',
+                ToastAndroid.LONG,
+                ToastAndroid.CENTER,
+                );
+        }, 10000);
         const animationLoading = Animated.timing(
             this.state.rotateVal,
             {
@@ -34,6 +49,7 @@ export default class province extends React.Component {
         fetch(URL + "query=province")
             .then((response) => response.json())        // json
             .then((responseData) => {
+                clearTimeout(tt);
                 Animated.loop(animationLoading).stop();
                 this.setState({
                     data: responseData,//when we use setState,it render again 
@@ -78,7 +94,6 @@ export default class province extends React.Component {
                     placeholderTextColor={'grey'}
                     value={this.state.search}
                 />
-
             </View>
         )
     }
@@ -89,20 +104,19 @@ export default class province extends React.Component {
                 <TouchableOpacity onPress={() => navigate('city', { value: item.province })}>
                     <Button
                         buttonStyle={{
-                            width: win.width - 10,
-                            height: 50,
+                            flex:1,
+                            height: 70,
                             backgroundColor: 'white',
-
                         }}
                         containerStyle={{
-                            width: win.width - 10,
-                            height: 50,
+                            flex:1,
+                            height: 70,
                             marginTop: 5,
                             marginLeft: 5,
                             marginRight: 5,
-                            opacity: 0.8,
+                            opacity: 0.7,
                         }}
-                        titleStyle={{ color: 'black' }}
+                        titleStyle={{color: 'black',fontSize:17 }}
                         title={item.province}
                     />
                 </TouchableOpacity>
@@ -136,8 +150,8 @@ export default class province extends React.Component {
                         <LinearGradient
                             start={{ x: 0, y: 0 }}
                             end={{ x: 0, y: 1 }}
-                            colors={['#dbdcd7', '#dddcd7', '#e2c9cc', '#e7627d', '#b8235a', '#801357', '#3d1635', '#1c1a27']}
-                            locations={[0, 0.24, 0.3, 0.46, 0.59, 0.71, 0.84, 1]}
+                            colors={['#e0ffff',  '#1e90ff']}
+                            locations={[0,1]}
                         >
                             <FlatList
                                 extraData={this.state}
@@ -151,18 +165,15 @@ export default class province extends React.Component {
                                 ListHeaderComponent={this.headerorfooterComponent}
                             /></LinearGradient>
                 }
-
             </View>
         );
     }
-
 };
 const win = Dimensions.get('screen')
 const styles = StyleSheet.create({
     list: {
         flex: 1,
         margin: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        flexDirection:'column',
     },
 })

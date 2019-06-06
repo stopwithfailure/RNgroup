@@ -1,6 +1,6 @@
 import React from 'react';
-import { Animated, FlatList, StyleSheet, View, Dimensions, Easing, Text } from 'react-native';
-import { SearchBar, Button } from 'react-native-elements';
+import { Animated, FlatList, StyleSheet, View, Dimensions, Easing, Text, ToastAndroid } from 'react-native';
+import { Button } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -21,10 +21,24 @@ export default class city extends React.Component {
 	}
 	static navigationOptions = ({ navigation, navigationOptions }) => {
 		return {
-			title: navigation.getParam('value'),
+			headerTitle: (
+				<Text style={{ flex: 1, color: 'black', fontWeight: 'bold', fontSize: 17 }}>{navigation.getParam('value')}</Text>
+			),
+			headerStyle: {
+				backgroundColor: 'white',
+			},
+			headerTintColor: 'black',
 		}
 	};
 	componentDidMount() {
+		let tt = setTimeout(() => {
+			Animated.loop(animationLoading).stop();
+			ToastAndroid.showWithGravity(
+				'Network connection is unavailable.\nPlease try again later.',
+				ToastAndroid.LONG,
+				ToastAndroid.CENTER,
+			);
+		}, 10000);
 		const animationLoading = Animated.timing(
 			this.state.rotateVal,
 			{
@@ -37,6 +51,7 @@ export default class city extends React.Component {
 			+ this.props.navigation.state.params.value)
 			.then((response) => response.json())        // json
 			.then((responseData) => {
+				clearTimeout(tt);
 				Animated.loop(animationLoading).stop();
 				this.setState({
 					data: responseData,//when we use setState,it render again 
@@ -49,41 +64,41 @@ export default class city extends React.Component {
 			})
 			.done();
 	}
-	search_(clue) {
-		if (clue == "") {
-			this.setState({
-				data: netdata_c,
-				search: '',
-			})
-		} else {
-			let newdata = [];
-			for (let i = 0; i < netdata_c.length; ++i) {
-				if (netdata_c[i]['city'].toLowerCase().indexOf(clue) != -1) {
-					newdata.push(netdata_c[i]);
-				}
-			}
-			this.setState({
-				data: newdata,
-				search: clue,
-			})
-		}
-	}
-	headerorfooterComponent = () => {
-		return (
-			<View style={styles.list}>
-				<SearchBar
-					placeholder="Search cities..."
-					onChangeText={(clue) => this.search_(clue)}
-					containerStyle={{ width: win.width - 6, height: 60, backgroundColor: 'white', borderRadius: 11, marginLeft: 3, marginRight: 3, marginTop: 3 }}
-					inputContainerStyle={{ backgroundColor: 'white' }}
-					searchIcon={{ size: 30, color: 'grey' }}
-					inputStyle={{ fontSize: 15 }}
-					placeholderTextColor={'grey'}
-					value={this.state.search}
-				/>
-			</View>
-		)
-	}
+	// search_(clue) {//because of each province has at most 5 cities,we delete search function of city page
+	// 	if (clue == "") {
+	// 		this.setState({
+	// 			data: netdata_c,
+	// 			search: '',
+	// 		})
+	// 	} else {
+	// 		let newdata = [];
+	// 		for (let i = 0; i < netdata_c.length; ++i) {
+	// 			if (netdata_c[i]['city'].toLowerCase().indexOf(clue) != -1) {
+	// 				newdata.push(netdata_c[i]);
+	// 			}
+	// 		}
+	// 		this.setState({
+	// 			data: newdata,
+	// 			search: clue,
+	// 		})
+	// 	}
+	// }
+	// headerorfooterComponent = () => {
+	// 	return (
+	// 		<View style={styles.list}>
+	// 			<SearchBar
+	// 				placeholder="Search cities..."
+	// 				onChangeText={(clue) => this.search_(clue)}
+	// 				containerStyle={{ width: win.width - 6, height: 60, backgroundColor: 'white', borderRadius: 11, marginLeft: 3, marginRight: 3, marginTop: 3 }}
+	// 				inputContainerStyle={{ backgroundColor: 'white' }}
+	// 				searchIcon={{ size: 30, color: 'grey' }}
+	// 				inputStyle={{ fontSize: 15 }}
+	// 				placeholderTextColor={'grey'}
+	// 				value={this.state.search}
+	// 			/>
+	// 		</View>
+	// 	)
+	// }
 	renderItem(item) {
 		const { navigate } = this.props.navigation;
 		return (
@@ -94,19 +109,19 @@ export default class city extends React.Component {
 				})}>
 					<Button
 						buttonStyle={{
-							width: win.width - 10,
-							height: 50,
+							width: win.width - 16,
+							height: 70,
 							backgroundColor: 'white',
 						}}
 						containerStyle={{
-							width: win.width - 10,
-							height: 50,
-							marginTop: 5,
-							marginLeft: 5,
-							marginRight: 5,
-							opacity: 0.8,
+							width: win.width - 16,
+							height: 70,
+							marginTop: 10,
+							marginLeft: 8,
+							marginRight: 8,
+							opacity: 0.75,
 						}}
-						titleStyle={{ color: 'black' }}
+						titleStyle={{ color: 'black', fontSize: 18 }}
 						title={item.city}
 					/>
 				</TouchableOpacity>
@@ -119,26 +134,26 @@ export default class city extends React.Component {
 				{
 					this.state.ani == 1 ?
 						<View>
-						<Animated.Text
-							style={{
-								textAlign: 'center',
-								fontSize: 25,
-								fontFamily: 'iconfont',
-								transform: [{ 
-									rotate: this.state.rotateVal.interpolate({
-										inputRange: [0, 360],
-										outputRange: ['0deg', '360deg'],
-									})
-								}]
-							}}>
-							{'☯'}
-						</Animated.Text><Text>Loading...</Text>
-                        </View> :
+							<Animated.Text
+								style={{
+									textAlign: 'center',
+									fontSize: 25,
+									fontFamily: 'iconfont',
+									transform: [{
+										rotate: this.state.rotateVal.interpolate({
+											inputRange: [0, 360],
+											outputRange: ['0deg', '360deg'],
+										})
+									}]
+								}}>
+								{'☯'}
+							</Animated.Text><Text>Loading...</Text>
+						</View> :
 						<LinearGradient
 							start={{ x: 0, y: 0 }}
 							end={{ x: 0, y: 1 }}
-							colors={['#fdeff9', '#e2c9cc', '#ec38bc', '#7303c0', '#03001e']}
-							locations={[0, 0.25, 0.5, 0.75, 1]}
+							colors={['#e0ffff', '#87ceeb', '#294bff']}
+							locations={[0, 0.5, 1]}
 						><FlatList
 								extraData={this.state}
 								keyExtractor={(item, index) => String(index)}

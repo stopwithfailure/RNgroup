@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View, Dimensions, Easing, Animated, } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Easing, Animated, ToastAndroid } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -19,10 +19,29 @@ export default class details extends React.Component {
     }
     static navigationOptions = ({ navigation, navigationOptions }) => {
         return {
-            title: navigation.getParam('province_1') + " > " + navigation.getParam('city_1'),
+            title: navigation.getParam('province_1') +"  ->  "+ navigation.getParam('city_1'),
+            
+            headerStyle:{
+                backgroundColor:'white',
+                textAlign:'center',
+                },
+            headerTitleStyle:{
+                color:'black',
+                fontWeight:'bold',
+                textAlign:'center',
+              },
+              headerTintColor:'black'
         }
     };
     componentDidMount() {
+        let tt=setTimeout(() => {
+            Animated.loop(animationLoading).stop();
+            ToastAndroid.showWithGravity(
+                'Network connection is unavailable.\nPlease try again later.',
+                ToastAndroid.LONG,
+                ToastAndroid.CENTER,
+                );
+        }, 10000);
         const animationLoading = Animated.timing(
             this.state.rotateVal,
             {
@@ -36,6 +55,7 @@ export default class details extends React.Component {
             + this.props.navigation.state.params.city_1)
             .then((response) => response.json())        // json
             .then((responseData) => {
+                clearTimeout(tt);
                 Animated.loop(animationLoading).stop();
                 netdata_d = this.Briefinform(responseData);
                 this.setState({
@@ -154,7 +174,7 @@ export default class details extends React.Component {
         );
     }
 }
-const win = Dimensions.get('screen')
+
 const styles = StyleSheet.create({
     list: {
         flex: 1,
